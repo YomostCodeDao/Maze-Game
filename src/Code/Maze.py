@@ -82,15 +82,17 @@ class Maze:
 
     def display_maze(self, screen, ai):
         cell_size = 20
-        START_COLOR = (204, 229, 255)
-        END_COLOR = (0, 255, 0)
-        PLAYER_PATH_COLOR = (255, 0, 0)
-        AI_PATH_COLOR = (204, 229, 255)
-        OBSTACLE_COLOR = (0, 0, 0)
-        REWARD_COLOR = (255, 215, 0)
-        WALL_COLOR = (128, 128, 128)
-        EMPTY_COLOR = (255, 255, 255)
-        VISITED_COLOR = (204, 229, 255)
+        START_COLOR = (135, 206, 250)      # Màu xanh da trời nhạt (Sky Blue) - Điểm bắt đầu (không thay đổi)
+        END_COLOR = (34, 139, 34)          # Màu xanh lá cây rừng (Forest Green) - Điểm kết thúc
+        PLAYER_PATH_COLOR = (255, 99, 71)  # Màu cà chua (Tomato) - Đường đi của người chơi
+        AI_PATH_COLOR = (100, 149, 237)    # Màu xanh ngọc bích (Cornflower Blue) - Đường đi của AI
+        OBSTACLE_COLOR = (80, 80, 80)      # Màu xám đậm vừa (Dim Gray) - Chướng ngại vật
+        REWARD_COLOR = (255, 215, 0)       # Màu vàng kim (Gold) - Phần thưởng
+        WALL_COLOR = (112, 128, 144)       # Màu xanh xám (Slate Gray) - Tường
+        EMPTY_COLOR = (245, 245, 245)      # Màu trắng khói (White Smoke) - Ô trống
+        VISITED_COLOR = (144, 238, 144)    # Màu xanh nhạt (Light Green) - Đã ghé thăm (không thay đổi)
+
+
 
         for y in range(self.height):
             for x in range(self.width):
