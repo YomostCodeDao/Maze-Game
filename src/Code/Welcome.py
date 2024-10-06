@@ -60,6 +60,10 @@ def draw_start_screen():
 
 def main():
     running = True
+    transition_started = False  # Để kiểm soát hiệu ứng chuyển cảnh
+    # Khởi tạo âm thanh nền cho màn hình bắt đầu
+    pygame.mixer.music.load("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/nenstart.mp3")
+    pygame.mixer.music.play(-1)  # Phát lặp vô hạn
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -68,16 +72,46 @@ def main():
                 if start_button.collidepoint(event.pos):
                     # Phát âm thanh khi nút START được nhấp
                     start_sound.play()
-                    # Chạy tệp main.py
-                    main_py_path = r"C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Code/Main.py"
-                    subprocess.Popen(["python", "-u", main_py_path])
-                    # Thoát khỏi tệp hiện tại
-                    pygame.quit()
-                    sys.exit()
-
+                    # Dừng âm thanh nền
+                    pygame.mixer.music.fadeout(500)  # Tắt dần âm thanh nền trong 0.5 giây
+                    # Bắt đầu hiệu ứng chuyển cảnh
+                    transition_started = True
+        # Kiểm soát hiệu ứng chuyển cảnh
+        if transition_started:
+            # Vẽ hiệu ứng fade hoặc bất kỳ hiệu ứng nào
+            transition_effect()
+            # Sau khi hoàn thành hiệu ứng, khởi chạy tệp Main.py
+            if run_external_script():
+                running = False  # Kết thúc vòng lặp nếu script khởi chạy thành công
         draw_start_screen()
+    # Thoát game sau khi kết thúc vòng lặp
+    quit_game()
 
+def run_external_script():
+    try:
+        main_py_path = r"C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Code/Main.py"
+        subprocess.Popen(["python", "-u", main_py_path])
+        return True
+    except Exception as e:
+        print(f"Đã xảy ra lỗi khi chạy Main.py: {e}")
+        return False
+
+def transition_effect():
+    # Thêm các hiệu ứng chuyển cảnh (ví dụ: fade out, trượt màn hình, v.v.)
+    # Ví dụ hiệu ứng fade ra màn hình đen
+    for alpha in range(0, 255, 5):
+        overlay = pygame.Surface(screen.get_size())
+        overlay.set_alpha(alpha)
+        overlay.fill((0, 0, 0))
+        screen.blit(overlay, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(10)
+
+def quit_game():
     pygame.quit()
+    sys.exit()
+
+
 
 if __name__ == "__main__":
     main()
