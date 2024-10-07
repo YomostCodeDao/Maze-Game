@@ -22,7 +22,7 @@ def main():
     shortest_path = None  # Biến để lưu đường đi ngắn nhất
     ai.maze = maze  # Thiết lập mê cung cho đối tượng AI
     start_time = None  # Biến để lưu thời gian bắt đầu chơi
-    countdown_time = 120  # Thời gian đếm ngược ban đầu là 59 giây
+    countdown_time = 120  # Thời gian đếm ngược ban đầu là 120 giây (2 phút)
     running = True  # Biến để theo dõi trạng thái của trò chơi (chạy hoặc dừng)
     game_over = False  # Biến để theo dõi trạng thái kết thúc của trò chơi
     game_over_time = None  # Biến để lưu thời gian khi trò chơi kết thúc
@@ -119,16 +119,13 @@ def main():
         # Loại bỏ các phần tử đã xử lý khỏi maze.rewards
         for reward in rewards_to_remove:
             maze.rewards.remove(reward)
-        
-        # Phát nhạc khi di chuyển trúng phần thưởng
+            
         # Phát nhạc khi di chuyển trúng phần thưởng
         if play_reward_music:
-            pygame.mixer.music.load("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/trungthuong.mp3")
-            pygame.mixer.music.play()
-            # Gán sự kiện kết thúc nhạc
-            pygame.mixer.music.set_endevent(pygame.USEREVENT)
-            # Thêm hàm callback để phát nhạc tiếp theo sau khi nhạc hiện tại kết thúc
-            pygame.mixer.music.queue("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/nhac.mp3")
+            # Sử dụng kênh riêng cho âm thanh phần thưởng để không làm gián đoạn nhạc nền
+            reward_channel = pygame.mixer.Channel(1)  # Tạo kênh riêng cho phần thưởng
+            reward_channel.play(pygame.mixer.Sound("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/trungthuong.mp3"))
+            # Nhạc nền vẫn tiếp tục phát mà không bị dừng lại khi di chuyển trúng phần thưởng
             
         if start_time is not None and not game_over:
             elapsed_time = countdown_time - int(time.time() - start_time)  # Thời gian còn lại được tính bằng cách trừ thời gian đã trôi qua từ 60
@@ -141,18 +138,18 @@ def main():
             text_rect.topright = (width - 100, 10)  # Đặt vị trí của thời gian
             screen.blit(time_text, text_rect)
 
-            # Kiểm tra và thông báo game over nếu hết thời gian mà icon không đạt đến điểm cuối
+            # Kiểm tra và thông báo Game Over nếu hết thời gian mà icon không đạt đến điểm cuối
             if elapsed_time == 0 and not maze_completed:
                 game_over = True
-                game_over_time = time.time()  # Lưu thời điểm khi game over
-                game_over_display_time = pygame.time.get_ticks()  # Lưu thời điểm hiển thị thông báo game over
+                game_over_time = time.time()  # Lưu thời điểm khi Game Over
+                game_over_display_time = pygame.time.get_ticks()  # Lưu thời điểm hiển thị thông báo Game Over
 
                 # Tải và phát nhạc khi game over
                 pygame.mixer.music.load("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/gameover.mp3")
                 pygame.mixer.music.play()
                 
-            # Kiểm tra và vẽ thông báo chúc mừng nếu cần
-        # Trong phần hiển thị thông báo Chúc mừng
+            # Kiểm tra và vẽ thông báo Chúc Mừng nếu cần
+        # Trong phần hiển thị thông báo Chúc Mừng
         if congrats_display_time is not None:
             elapsed_congrats_time = current_time - congrats_display_time
             if elapsed_congrats_time < 3000:  # Hiển thị trong 3 giây
@@ -165,7 +162,8 @@ def main():
             else:
                 congrats_display_time = None  # Ẩn thông báo sau khi đã hiển thị trong khoảng thời gian nhất định
 
-        # Kiểm tra và vẽ thông báo game over nếu cần
+            # Kiểm tra và vẽ thông báo Game Over nếu cần
+        # Trong phần hiển thị thông báo Game Over
         if game_over_display_time is not None:
             elapsed_game_over_time = current_time - game_over_display_time
             if elapsed_game_over_time < 3000:  # Hiển thị thông báo trong 3 giây
