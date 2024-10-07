@@ -101,4 +101,3 @@ class ControlPanel:
                     self.current_direction = None
 
         return maze, ai
-
