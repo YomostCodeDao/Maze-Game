@@ -4,7 +4,7 @@ from Maze import Maze
 from pygame.locals import *
 from queue import PriorityQueue
 from queue import PriorityQueue
-
+import os  # Thêm thư viện os
 def dijkstra(maze):
     # Thuật toán Dijkstra để tìm đường đi ngắn nhất trong mê cung
     start_node = (maze.start_x, maze.start_y)  # Điểm bắt đầu
@@ -51,5 +51,7 @@ def heuristic(a, b):
 
 def play_next_music():
     # Hàm để phát nhạc tiếp theo
-    pygame.mixer.music.load("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/nhac.mp3")
+    base_path = os.path.dirname(__file__)  # Lấy đường dẫn thư mục hiện tại
+    music_path = os.path.join(base_path, "assets/music/nhac.mp3")  # Đường dẫn tương đối tới file nhạc
+    pygame.mixer.music.load(music_path)
     pygame.mixer.music.play()
