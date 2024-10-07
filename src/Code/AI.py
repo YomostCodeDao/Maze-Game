@@ -2,6 +2,7 @@ import pygame
 from Maze import Maze
 from pygame.locals import *
 import threading
+import os  # Thêm thư viện os để làm việc với đường dẫn
 
 class AI:
     
@@ -12,6 +13,7 @@ class AI:
         self.start_y = maze.start_y  # Lưu trữ vị trí ban đầu của icon theo trục Y
         self.path = []  # Thêm thuộc tính path vào đối tượng AI
         self.move_history = []  # Lịch sử các bước đã di chuyển
+
     def move_towards(self, target_x, target_y):
         dx = target_x - self.x
         dy = target_y - self.y
@@ -63,15 +65,18 @@ class AI:
         # Khởi tạo mixer của pygame
         pygame.mixer.init()
 
+        # Sử dụng đường dẫn tương đối tới file nhạc
+        base_path = os.path.dirname(__file__)  # Lấy đường dẫn thư mục hiện tại
+        sound1_path = os.path.join(base_path, "assets/music/trungchuongngaivat.mp3")
+        sound2_path = os.path.join(base_path, "assets/music/nhac.mp3")
+
         # Phát nhạc 'trungchuongngaivat.mp3'
-        pygame.mixer.music.load("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/trungchuongngaivat.mp3")
+        pygame.mixer.music.load(sound1_path)
         pygame.mixer.music.play()
 
         # Đợi cho nhạc phát xong
         pygame.time.wait(3000)  # Chờ 3 giây
 
         # Phát nhạc 'nhac.mp3'
-        pygame.mixer.music.load("C:/Users/ASUS/Desktop/Yomost File/CDIO/GameTTNT/src/Music/nhac.mp3")
+        pygame.mixer.music.load(sound2_path)
         pygame.mixer.music.play()
-
-        
