@@ -5,4 +5,5 @@
   (Đường dẫn tải src này về) + /GameTTNT/src/......
   
 **CHẠY TỆP Welcome.py ĐỂ CHẠY CHƯƠNG TRÌNH**
+
   **Không tự ý chỉnh bất kỳ đường dẫn nào phía sau /GameTTNT/src/... (Nếu thực sự đọc hiểu được code này)**
